@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Search List</title>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+    
+   <!-- <link href="index.css" rel="stylesheet" type="text/css" />-->
+   
+  </head>
+  <body>
+    
+    <div class="container">
+      
+      <input type="text" id="filterInput" placeholder ="Search usernames...">
+      <u1 id = "itemsList" class ="collection">
+
+      </u1>  
+      
+    </div>
+    
+    <script>
+    
+    <!--  put in javascript here-->
+    buildList();
+    
+    var filterInput = document.getElementById('filterInput');
+    
+    filterInput.addEventListener('keyup', filterList);
+    
+    function filterList(){
+      var filterText=filterInput.value;
+      var listItems = document.querySelectorAll('li');
+      for(var i=0;i<listItems.length;i++){
+        if(listItems[i].innerHTML.indexOf(filterText)===-1){
+          listItems[i].style.display='none';
+        } else {
+          listItems[i].style.display='';
+          
+        }
+        
+      }
+      
+    }
+    
+    function buildList(){
+      
+      var url='https://randomuser.me/api/?inc=login&results=10';
+      fetch(url)
+      .then(function(resp){
+        return resp.json();
+      })
+      .then(function(data){
+        //console.log(data.results[0].login.username);
+        
+        var li;
+        var ul = document.getElementById('itemsList');
+        for(var i=0;i<data.results.length; i++){
+          //console.log(data.results[i].login.username);
+          
+          li = document.createElement('li');
+          li.innerHTML =data.results[i].login.username;
+          li.className = 'collection-item';
+          ul.appendChild(li);
+          
+        }
+        
+      });
+      
+    }
+    
+      
+        
+        
+    </script>          
+      
+      
+    
+    
+    <!-- <script src="index.js"></script>-->
+    
+  </body>
+</html>
